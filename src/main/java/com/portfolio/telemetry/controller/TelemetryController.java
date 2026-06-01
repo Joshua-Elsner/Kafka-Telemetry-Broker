@@ -5,6 +5,7 @@ import com.portfolio.telemetry.service.TelemetryProducer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/telemetry")
@@ -18,7 +19,7 @@ public class TelemetryController {
     }
 
     @PostMapping("/device")
-    public ResponseEntity<String> registerDevice(@RequestBody Device device) {
+    public ResponseEntity<String> registerDevice(@Valid @RequestBody Device device) {
         // Drop the data into Kafka and immediately return a 202 Accepted response
         telemetryProducer.sendDeviceEvent(device);
         return new ResponseEntity<>("Event Queued Successfully", HttpStatus.ACCEPTED);
